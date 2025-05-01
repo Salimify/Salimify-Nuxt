@@ -1,0 +1,52 @@
+name: Deploy Nuxt SSR to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      PROJECT_DIR: ${{ secrets.PRODUCTION_PROJECT_PATH }}
+      HOST_IP: ${{ secrets.PRODUCTION_SERVER_IP }}
+      SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+
+    steps:
+      - name: ✅ Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🔐 Setup SSH Key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+
+      - name: 🧩 Add SSH Host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $HOST_IP >> ~/.ssh/known_hosts
+
+      - name: 🧹 Clean Remote Project Directory (excluding .env and uploads)
+        run: |
+          ssh $SSH_USER@$HOST_IP << EOF
+            cd $PROJECT_DIR
+            find . -mindepth 1 -maxdepth 1 ! -name '.env' ! -name 'public' -exec rm -rf {} +
+          EOF
+
+      - name: 📤 Rsync Project Files to Remote
+        run: |
+          rsync -az --delete --exclude=".git" --exclude="node_modules" \
+            --exclude=".env" --exclude="public/uploads" \
+            -e "ssh -o StrictHostKeyChecking=no" ./ $SSH_USER@$HOST_IP:$PROJECT_DIR
+
+      - name: 🚀 Restart Docker Containers on Remote
+        run: |
+          ssh $SSH_USER@$HOST_IP << EOF
+            cd $PROJECT_DIR
+            docker compose down
+            docker compose build
+            docker compose up -d --remove-orphans
+          EOF
