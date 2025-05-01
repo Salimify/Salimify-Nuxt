@@ -1,0 +1,89 @@
+@import './markdown.css';
+
+html,
+body,
+#app {
+  line-height: 1.15;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.prose {
+  max-width: 80%;
+}
+
+.accent-color {
+  color: #58a6ff;
+}
+
+.bg-accent-color {
+  background-color: #58a6ff;
+}
+
+.main-btn:hover {
+  background-color: #58a6ff;
+  color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  .prose {
+    max-width: 100%;
+    padding: 0.5rem !important;
+  }
+
+  .img-cover {
+    width: 100% !important;
+  }
+}
+
+html {
+  background: #FAFAFA;
+}
+
+html.dark {
+  background: #121212;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  @apply bg-blue-400 opacity-75;
+
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+}
+
+.btn {
+  @apply px-4 py-1 rounded inline-block
+  bg-blue-400 text-white cursor-pointer
+  hover:bg-blue-500
+  disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50
+  focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2
+  dark:focus:ring-offset-gray-800;
+}
+
+.btn-text {
+  @apply px-4 py-1 rounded inline-block
+  text-gray-600 cursor-pointer
+  hover:underline
+  disabled:cursor-default disabled:opacity-50
+  focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 focus:underline
+  dark:focus:ring-offset-gray-800;
+}
+
+.icon-btn {
+  @apply inline-block cursor-pointer select-none
+  opacity-75 transition duration-200 ease-in-out rounded
+  hover:opacity-100 hover:text-blue-400
+  focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2
+  dark:focus:ring-offset-gray-800;
+  font-size: 0.9em;
+}

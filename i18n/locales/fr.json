@@ -1,0 +1,29 @@
+{
+  "button": {
+    "about": "À propos",
+    "back": "Retour",
+    "home": "Accueil",
+    "toggle_dark": "Activer/désactiver le mode sombre",
+    "toggle_langs": "Changer de langue",
+    "my-blog": "Stack Overflous",
+    "my-portfolio": "Mon Portfolio"
+  },
+  "intro": {
+    "desc": "Ingénieur logiciel full-stack basé à Vienne, spécialisé dans la création d'applications web, desktop et mobiles fiables, avec un fort accent sur l'architecture propre et l'amélioration continue.",
+    "name": "Salim",
+    "last-name": "B.H."
+  },
+  "titles": {
+    "blog-posts": "Articles de blog"
+  },
+  "not-found": "Introuvable",
+  "text": {
+    "loading": "Chargement…",
+    "load-failed": "Échec du chargement de l’article",
+    "copied": "Copié"
+  },
+  "my": "Mon",
+  "i-am-available": "Je suis disponible",
+  "i-am-not-available": "Je ne suis pas disponible",
+  "lets-talk": "Discutons"
+}

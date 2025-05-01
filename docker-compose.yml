@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  nuxt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nuxt-ssr
+    ports:
+      - "8075:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
