@@ -63,7 +63,6 @@ export function usePostById() {
                 const authorRes = await fetch(`${strapiBackend}/api/authors/${authorId}?populate=avatar`)
                 const { data: author } = await authorRes.json()
 
-                console.log(authorRes)
                 const avatar = author?.avatar
                 authorData = {
                     name: author.name,
@@ -79,7 +78,7 @@ export function usePostById() {
             frontmatter.value = {
                 title: post.title,
                 description: post.content.slice(0, 150) + '...',
-                author: authorData ?? {
+                author: authorData as any ?? {
                     name: 'Unknown',
                     profileImage: DEFAULT_AUTHOR_IMAGE,
                     links: [],
@@ -95,11 +94,14 @@ export function usePostById() {
         } finally {
             loading.value = false
         }
+        return {
+            frontmatter,
+            loading,
+            fetchPost,
+        }
     }
 
     return {
-        frontmatter,
-        loading,
         fetchPost,
     }
 }

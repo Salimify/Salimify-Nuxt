@@ -1,54 +1,63 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Github, Linkedin, Twitter, Mail } from 'lucide-vue-next'
 import {
   githubLink,
   linkedinLink,
   portfolioWebsiteLink,
   twitterLink,
 } from '~/logic/local-strings'
-import { Github, Linkedin, Twitter, Mail } from 'lucide-vue-next'
+import { process } from 'std-env'
 
 const { t } = useI18n()
 
+const fullText = ref('')
+const typedText = ref(process.server ? t('intro.desc') : '')
+
+onMounted(() => {
+  fullText.value = t('intro.desc')
+
+  let index = 0
+  let isDeleting = false
+  const typeSpeed = 15
+  const deleteSpeed = 10
+  const pauseTime = 4000
+
+  const type = () => {
+    if (!isDeleting) {
+      typedText.value = fullText.value.slice(0, index++)
+      if (index > fullText.value.length) {
+        isDeleting = true
+        setTimeout(type, pauseTime)
+        return
+      }
+    } else {
+      typedText.value = fullText.value.slice(0, --index)
+      if (index === 0) {
+        isDeleting = false
+      }
+    }
+
+    setTimeout(type, isDeleting ? deleteSpeed : typeSpeed)
+  }
+
+  type()
+})
+
 const openLink = () => {
-  window.open(portfolioWebsiteLink, '_blank')
+  if (process.client) {
+    window.open(portfolioWebsiteLink, '_blank')
+  }
 }
 
 const sendEmail = () => {
-  window.open('mailto:contact@salimify.com')
-}
-const fullText = t('intro.desc')
-
-const typedText = ref('')
-let index = 0
-let isDeleting = false
-
-const typeSpeed = 15
-const deleteSpeed = 10
-const pauseTime = 4000
-
-const type = () => {
-  if (!isDeleting) {
-    typedText.value = fullText.slice(0, index++)
-    if (index > fullText.length) {
-      isDeleting = true
-      setTimeout(type, pauseTime)
-      return
-    }
-  } else {
-    typedText.value = fullText.slice(0, --index)
-    if (index === 0) {
-      isDeleting = false
-    }
+  if (process.client) {
+    window.open('mailto:contact@salimify.com')
   }
-
-  setTimeout(type, isDeleting ? deleteSpeed : typeSpeed)
 }
-
-onMounted(() => {
-  type()
-})
 </script>
+
 <template>
   <aside class="about-card">
     <div class="about-card__content max-w-6xl">

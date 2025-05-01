@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePaginatedPosts } from '~/logic/usePaginatedPosts'
 import AboutMeCard from '~/components/blog/AboutMeCard.vue'
@@ -8,8 +7,8 @@ import ArticleCard from '~/components/blog/ArticleCard.vue'
 import HeroArticle from '~/components/blog/HeroArticle.vue'
 
 const { t } = useI18n()
+
 const {
-  filteredArticles,
   heroArticle,
   paginatedArticles,
   pageCount,
@@ -19,7 +18,7 @@ const {
   getTagsForPost
 } = usePaginatedPosts(1)
 
-onMounted(fetchPosts)
+await useAsyncData('blogPosts', () => fetchPosts())
 </script>
 
 <template>

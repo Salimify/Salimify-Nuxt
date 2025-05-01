@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { isDark, toggleDark } from '~/logic'
 import { portfolioWebsiteLink } from '~/logic/local-strings'
 import { Sun, Moon, Languages } from 'lucide-vue-next'
+import { process } from 'std-env'
 
+// i18n setup
 const { t, availableLocales, locale } = useI18n()
 
 const toggleLocales = () => {
@@ -12,20 +15,23 @@ const toggleLocales = () => {
   locale.value = locales[nextIndex]
 }
 
+// reactive state (SSR-safe)
 const isScrolled = ref(false)
 
-onMounted(() => {
+if (process.client) {
   const onScroll = () => {
     isScrolled.value = window.scrollY > 0
   }
 
-  window.addEventListener('scroll', onScroll)
-  onScroll() // check on mount
+  onMounted(() => {
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+  })
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
   })
-})
+}
 </script>
 
 <template>

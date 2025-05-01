@@ -15,26 +15,6 @@ const articleFullPath = computed(() =>
     `${window.location.origin}${router.currentRoute.value.path}`
 )
 
-useHead({
-  title: `${props.title} | StackOverFlous by ${props.author.name}`,
-  meta: [
-    { name: 'description', content: props.description },
-    { property: 'og:type', content: 'article' },
-    { property: 'og:url', content: articleFullPath.value },
-    { property: 'og:title', content: props.title },
-    { property: 'og:description', content: props.description },
-    { property: 'og:image', content: props.cover.img },
-    { name: 'twitter:url', content: articleFullPath.value },
-    { name: 'twitter:title', content: props.title },
-    { name: 'twitter:description', content: props.description },
-    { name: 'twitter:image', content: props.cover.img },
-    { name: 'article:published_time', content: props.createdAt },
-    { name: 'twitter:label1', content: 'Written by' },
-    { name: 'twitter:data1', content: props.author.name },
-  ],
-  link: [{ rel: 'canonical', href: articleFullPath.value }],
-})
-
 const copyToClipboard = () => {
   navigator.clipboard.writeText(articleFullPath.value).then(() => {
     isUrlCopied.value = true
@@ -72,7 +52,7 @@ const openLink = () => {
             {{ props.author.name }}
           </span>
           <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
-            {{ props.createdAt }} • {{ props.readTime }} min read
+            {{ props.createdAt }} • {{ props.readTime }} read
           </span>
         </div>
       </div>

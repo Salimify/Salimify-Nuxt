@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { onMounted } from 'vue'
+import { useAsyncData } from '#app'
 import { usePaginatedPosts } from '~/logic/usePaginatedPosts'
-import TagChip from "~/components/blog/TagChip.vue";
-import AboutMeCard from "~/components/blog/AboutMeCard.vue";
-import HeroArticle from "~/components/blog/HeroArticle.vue";
-import ArticleCard from "~/components/blog/ArticleCard.vue";
+import TagChip from '~/components/blog/TagChip.vue'
+import AboutMeCard from '~/components/blog/AboutMeCard.vue'
+import HeroArticle from '~/components/blog/HeroArticle.vue'
+import ArticleCard from '~/components/blog/ArticleCard.vue'
 
 const route = useRoute()
 const currentPage = parseInt(route.params.page as string) || 1
 
 const {
-  filteredArticles,
   heroArticle,
   paginatedArticles,
   pageCount,
@@ -21,7 +20,7 @@ const {
   getTagsForPost
 } = usePaginatedPosts(currentPage)
 
-onMounted(fetchPosts)
+await useAsyncData(`paginated-posts-${currentPage}`, () => fetchPosts())
 </script>
 
 

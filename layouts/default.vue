@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import {salimifyWebsite} from "~/logic/local-strings";
+import { salimifyWebsite } from '~/logic/local-strings'
+import { useHead } from '@unhead/vue'
 
 const title = 'StackOverFlous | Tech Blog by Salim'
+
 useHead({
   title,
   meta: [

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nuxt-ssr
+    container_name: salimify-blog-nuxt
     ports:
       - "8075:3000"
     environment:
