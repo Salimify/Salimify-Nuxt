@@ -7,12 +7,7 @@
     "toggle_langs": "Change languages",
     "my-blog": "Stack Overflous",
     "my-portfolio": "My Portfolio",
-    "email-me": "Email me"
-  },
-  "intro": {
-    "desc": "Vienna-based full-stack software engineer, Specialized in crafting reliable web, desktop, and mobile applications, with a strong focus on clean architecture and continuous improvement.",
-    "name": "Salim",
-    "last-name": "B.H."
+    "email-me": "Email me",
   },
   "titles": {
     "blog-posts": "Blog Posts"
@@ -26,5 +21,21 @@
   "my": "My",
   "i-am-available": "I'm available",
   "i-am-not-available": "I'm not available",
-  "lets-talk": "Let's Talk"
+  "lets-talk": "Let's Talk",
+  "post": {
+    "meta": "{createdAt} • {readTime} read"
+  },
+  "privacy": {
+    "loading": "Loading privacy policy…",
+    "error": "Error loading privacy policy."
+  },
+  "imprint": {
+    "loading": "Loading legal notice…",
+    "error": "Error loading legal notice."
+  },
+  "footer": {
+    "impressum": "Imprint",
+    "privacy": "Privacy Policy",
+    "note": "Crafted with {symbol} by {name}"
+  }
 }

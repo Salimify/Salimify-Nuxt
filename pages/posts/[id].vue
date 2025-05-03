@@ -1,22 +1,34 @@
 <script setup lang="ts">
 import BlogScaffold from '~/components/blog/BlogScaffold.vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
-import { usePostById } from '~/logic/usePostById'
-import { computed } from 'vue'
-import { type PostData } from '~/components/interfaces/interfaces'
+import {useI18n} from 'vue-i18n'
+import {useRoute} from 'vue-router'
+import {usePostById} from '~/logic/usePostById'
+import {computed} from 'vue'
+import {type PostData} from '~/components/interfaces/interfaces'
 import TagChip from "~/components/blog/TagChip.vue";
 import {salimifyWebsite} from "~/logic/local-strings";
+import Giscus from "~/components/blog/Giscus.vue";
 
-const { t } = useI18n()
-
-const { frontmatter, loading } = await usePostById().fetchPost()
-
+const {t} = useI18n()
 const route = useRoute()
 
+const {frontmatter, loading} = await usePostById().fetchPost()
 const articleFullPath = computed(() =>
     `${salimifyWebsite}${route.fullPath}`
 )
+
+const {locale, locales} = useI18n()
+
+const currentIso = computed(() => {
+  return locales.value.find((l: any) => l.code === locale.value)?.iso || 'en_US'
+})
+
+const alternateIsos = computed(() =>
+    locales.value
+        .filter((l: any) => l.code !== locale.value)
+        .map((l: any) => l.iso)
+)
+
 
 if (frontmatter.value) {
   const blogData = frontmatter.value as PostData
@@ -24,28 +36,44 @@ if (frontmatter.value) {
   useHead({
     title: `${blogData.title} | StackOverFlous by ${blogData.author.name}`,
     meta: [
-      { name: 'description', content: blogData.description },
-      { property: 'og:type', content: 'article' },
-      { property: 'og:url', content: articleFullPath.value },
-      { property: 'og:title', content: blogData.title },
-      { property: 'og:description', content: blogData.description },
-      { property: 'og:image', content: blogData.cover.img },
-      { name: 'twitter:url', content: articleFullPath.value },
-      { name: 'twitter:title', content: blogData.title },
-      { name: 'twitter:description', content: blogData.description },
-      { name: 'twitter:image', content: blogData.cover.img },
-      { name: 'article:published_time', content: blogData.createdAt },
-      { name: 'twitter:label1', content: 'Written by' },
-      { name: 'twitter:data1', content: blogData.author.name }
+      {name: 'description', content: blogData.description},
+      {property: 'og:type', content: 'article'},
+      {property: 'og:site_name', content: 'StackOverFlous'},
+      {property: 'og:url', content: articleFullPath.value},
+      {property: 'og:title', content: blogData.title},
+      {property: 'og:description', content: blogData.description},
+      {property: 'og:image', content: blogData.cover.img},
+      {property: 'og:locale', content: currentIso.value},
+      ...alternateIsos.value.map(iso => ({
+        property: 'og:locale:alternate',
+        content: iso
+      })),
+
+      {name: 'twitter:card', content: 'summary_large_image'},
+      {name: 'twitter:site', content: '@yourTwitterHandle'},
+      {name: 'twitter:creator', content: `@${blogData.author.name || 'author'}`},
+      {name: 'twitter:url', content: articleFullPath.value},
+      {name: 'twitter:title', content: blogData.title},
+      {name: 'twitter:description', content: blogData.description},
+      {name: 'twitter:image', content: blogData.cover.img},
+      {name: 'twitter:label1', content: 'Written by'},
+      {name: 'twitter:data1', content: blogData.author.name},
+
+      {property: 'article:published_time', content: blogData.createdAt},
+      ...(blogData.tags?.length
+          ? [
+            {property: 'article:tag', content: blogData.tags.join(', ')}
+          ]
+          : [])
     ],
-    link: [{ rel: 'canonical', href: articleFullPath.value }]
+    link: [{rel: 'canonical', href: articleFullPath.value}]
   })
+
 }
 </script>
 
 <template>
   <div class="post-container">
-    <!-- Content Ready -->
     <div v-if="frontmatter">
       <BlogScaffold
           :title="frontmatter.title"
@@ -56,11 +84,7 @@ if (frontmatter.value) {
           :created-at="frontmatter.createdAt"
           :tags="frontmatter.tags"
       />
-
-      <!-- Main Article Body -->
-      <div class="prose prose-body" v-html="frontmatter.content" />
-
-      <!-- Footer Tags -->
+      <div class="prose prose-body" v-html="frontmatter.content"/>
       <div class="tags-footer">
         <TagChip
             v-for="tag in frontmatter.tags"
@@ -68,14 +92,13 @@ if (frontmatter.value) {
             :label="tag.name"
         />
       </div>
+      <Giscus />
     </div>
 
-    <!-- Loading -->
     <p v-else-if="loading" class="text-center text-sm text-gray-500 dark:text-gray-400 mt-12">
       {{ t('text.loading') }}
     </p>
 
-    <!-- Error -->
     <p v-else class="text-center text-sm text-red-500 mt-12">
       {{ t('text.load-failed') }}
     </p>

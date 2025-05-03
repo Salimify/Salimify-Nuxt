@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { isDark, toggleDark } from '~/logic'
-import { githubLink, portfolioWebsiteLink } from '~/logic/local-strings'
-import { useI18n } from 'vue-i18n'
-import { Sun, Moon, Globe, Info, Github } from 'lucide-vue-next'
+import {isDark, toggleDark} from '~/logic'
+import {githubLink, portfolioWebsiteLink} from '~/logic/local-strings'
+import {useI18n} from 'vue-i18n'
+import {Sun, Moon, Globe, Info, Github} from 'lucide-vue-next'
 
-const { t, availableLocales, locale } = useI18n()
+const {t, availableLocales, locale} = useI18n()
+const localePath = useLocalePath()
 
 const toggleLocales = () => {
   const locales = availableLocales
   locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
 }
 </script>
-
 <template>
   <footer class="footer">
     <div class="footer-inner">
-
-      <!-- Icons -->
       <div class="footer-icons">
         <button
             class="footer-icon"
@@ -24,7 +22,7 @@ const toggleLocales = () => {
             @click="toggleDark()"
         >
           <ClientOnly>
-            <component :is="isDark ? Sun : Moon" />
+            <component :is="isDark ? Sun : Moon"/>
           </ClientOnly>
         </button>
 
@@ -33,16 +31,18 @@ const toggleLocales = () => {
             :title="t('button.toggle_langs')"
             @click="toggleLocales()"
         >
-          <Globe />
+          <Globe/>
         </button>
 
-        <NuxtLink
-            :to="portfolioWebsiteLink"
+        <a
+            :href="portfolioWebsiteLink"
+            rel="noopener noreferrer"
+            target="_blank"
             class="footer-icon"
             :title="t('button.about')"
         >
-          <Info />
-        </NuxtLink>
+          <Info/>
+        </a>
 
         <a
             :href="githubLink"
@@ -51,13 +51,20 @@ const toggleLocales = () => {
             rel="noopener noreferrer"
             title="GitHub"
         >
-          <Github />
+          <Github/>
         </a>
       </div>
 
-      <!-- Footer note -->
-      <p class="footer-note">
-        Crafted with <span class="heart">♥</span> by <a href="https://salimify.com" target="_blank" class="footer-link">Salimify</a>
+      <p class="footer-note text-sm text-gray-500 dark:text-gray-400 text-center">
+        <NuxtLinkLocale to="/impressum" class="underline hover:text-blue-500 dark:hover:text-blue-400">
+          {{ t('footer.impressum') }}
+        </NuxtLinkLocale>
+        &nbsp;|&nbsp;
+        <NuxtLinkLocale to="/datenschutz" class="underline hover:text-blue-500 dark:hover:text-blue-400">
+          {{ t('footer.privacy') }}
+        </NuxtLinkLocale>
+        &nbsp;—&nbsp;
+        {{ t('footer.note', {symbol: '♥', name: 'Salimify'}) }}
       </p>
     </div>
   </footer>

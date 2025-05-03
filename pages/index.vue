@@ -18,7 +18,10 @@ const {
   getTagsForPost
 } = usePaginatedPosts(1)
 
-await useAsyncData('blogPosts', () => fetchPosts())
+
+function selectTag(tagId: number | null) {
+  selectedTagId.value = tagId
+}
 </script>
 
 <template>
@@ -34,7 +37,7 @@ await useAsyncData('blogPosts', () => fetchPosts())
               label="All"
               :active="selectedTagId === null"
               :clickable="true"
-              @click="() => { selectedTagId = null }"
+              @click="() => selectTag(null)"
           />
           <TagChip
               v-for="tag in tags"
@@ -42,17 +45,17 @@ await useAsyncData('blogPosts', () => fetchPosts())
               :label="tag.name"
               :active="selectedTagId === tag.id"
               :clickable="true"
-              @click="() => { selectedTagId = tag.id }"
+              @click="() => selectTag(tag.id)"
           />
         </div>
       </section>
 
-      <!-- Hero Article -->
-      <section v-if="heroArticle" class="hero-section">
-        <HeroArticle :article="heroArticle" />
-      </section>
+      <ClientOnly>
+        <section v-if="heroArticle" class="hero-section">
+          <HeroArticle :article="heroArticle" />
+        </section>
+      </ClientOnly>
 
-      <!-- Article Grid -->
       <section v-if="paginatedArticles.length" class="articles-grid">
         <ArticleCard
             v-for="article in paginatedArticles"
@@ -62,7 +65,6 @@ await useAsyncData('blogPosts', () => fetchPosts())
         />
       </section>
 
-      <!-- Pagination -->
       <section v-if="pageCount > 1" class="pagination">
         <NuxtLink
             v-for="n in pageCount"

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { BlogScaffoldProp } from '~/components/interfaces/interfaces'
+import type {BlogScaffoldProp} from '~/components/interfaces/interfaces'
 import TagChip from '~/components/blog/TagChip.vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { portfolioWebsiteLink } from '~/logic/local-strings'
-import { Link as LinkIcon } from 'lucide-vue-next'
+import {useRouter} from 'vue-router'
+import {useI18n} from 'vue-i18n'
+import {portfolioWebsiteLink} from '~/logic/local-strings'
+import {Link as LinkIcon} from 'lucide-vue-next'
 
 const props = defineProps<BlogScaffoldProp>()
 const router = useRouter()
 const isUrlCopied = ref(false)
-const { t, availableLocales, locale } = useI18n()
+const {t, availableLocales, locale} = useI18n()
 
 const articleFullPath = computed(() =>
     `${window.location.origin}${router.currentRoute.value.path}`
@@ -34,9 +34,8 @@ const openLink = () => {
       {{ props.title }}
     </h1>
 
-    <!-- Meta -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-6 gap-4">
-      <!-- Author Block -->
+    <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-6 gap-4">
       <div class="flex items-center gap-4">
         <img
             :src="props.author.profileImage"
@@ -52,12 +51,11 @@ const openLink = () => {
             {{ props.author.name }}
           </span>
           <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
-            {{ props.createdAt }} • {{ props.readTime }} read
+            {{ t('post.meta', {createdAt: props.createdAt, readTime: props.readTime}) }}
           </span>
         </div>
       </div>
 
-      <!-- Tags & Copy -->
       <div class="flex items-center gap-3 flex-wrap">
         <TagChip
             v-for="tag in props.tags"
@@ -72,7 +70,7 @@ const openLink = () => {
               class="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition"
               :title="t('button.copy_link')"
           >
-            <LinkIcon class="w-5 h-5" />
+            <LinkIcon class="w-5 h-5"/>
           </button>
           <span
               v-if="isUrlCopied"

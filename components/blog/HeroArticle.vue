@@ -1,28 +1,29 @@
 <template>
-  <NuxtLink :to="article.slug" class="hero-article group" aria-label="Read featured article">
-    <div class="hero-img-wrapper">
-      <img
-          :src="article.cover.img"
-          :alt="article.cover.alt || article.title"
-          class="hero-img"
-          loading="lazy"
-      />
-    </div>
-
-    <div class="hero-content">
-      <p class="hero-date">
-        {{ article.createdAt }}
-      </p>
-      <h2 class="hero-title">
-        {{ article.title }}
-      </h2>
-      <p class="hero-desc" v-html="article.description" />
-    </div>
-  </NuxtLink>
+  <ClientOnly>
+    <NuxtLinkLocale :to="article.slug" class="hero-article group" aria-label="Read featured article">
+      <div class="hero-img-wrapper">
+        <img
+            :src="article.cover.img"
+            :alt="article.cover.alt || article.title"
+            class="hero-img"
+            loading="lazy"
+        />
+      </div>
+      <div class="hero-content">
+        <p class="hero-date">
+          {{ article.createdAt }}
+        </p>
+        <h2 class="hero-title">
+          {{ article.title }}
+        </h2>
+        <p class="hero-desc" v-html="article.description"></p>
+      </div>
+    </NuxtLinkLocale>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
-
+import {onMounted} from "vue";
 import type {Article} from "~/components/interfaces/interfaces";
 
 defineProps<{ article: Article }>()

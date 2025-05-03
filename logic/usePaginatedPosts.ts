@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { usePosts } from '~/logic/usePosts'
 
-export const usePaginatedPosts = (page: number, perPage = 6) => {
+export const usePaginatedPosts = (page: number, perPage = 3) => {
     const {
         filteredArticles,
         fetchPosts,

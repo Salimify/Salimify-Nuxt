@@ -8,11 +8,6 @@
     "my-blog": "Stack Overflous",
     "my-portfolio": "Mein Portfolio"
   },
-  "intro": {
-    "desc": "Full-Stack-Softwareentwickler mit Sitz in Wien, spezialisiert auf die Entwicklung zuverlässiger Web-, Desktop- und Mobilanwendungen mit Fokus auf sauberer Architektur und kontinuierlicher Verbesserung.",
-    "name": "Salim",
-    "last-name": "B.H."
-  },
   "titles": {
     "blog-posts": "Blogbeiträge"
   },
@@ -25,5 +20,21 @@
   "my": "Mein",
   "i-am-available": "Ich bin verfügbar",
   "i-am-not-available": "Ich bin nicht verfügbar",
-  "lets-talk": "Lass uns reden"
+  "lets-talk": "Lass uns reden",
+  "post": {
+    "meta": "{createdAt} • {readTime} Lesezeit"
+  },
+  "privacy": {
+    "loading": "Datenschutzerklärung wird geladen…",
+    "error": "Fehler beim Laden der Datenschutzerklärung."
+  },
+  "imprint": {
+    "loading": "Lade Impressum…",
+    "error": "Fehler beim Laden des Impressums."
+  },
+  "footer": {
+    "impressum": "Impressum",
+    "privacy": "Datenschutz",
+    "note": "Erstellt mit {symbol} von {name}"
+  }
 }

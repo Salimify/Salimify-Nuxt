@@ -10,4 +10,4 @@ export const twitterLink = 'https://x.com/Salimify'
 export const salimifyWebsite = 'https://salimify.com'
 
 export const wpBackend = 'https://wp.salimify.com/wp-json/wp/v2'
-export const strapiBackend = 'https://cms.salimify.com'
+export const strapiBackend = 'http://localhost:1337'

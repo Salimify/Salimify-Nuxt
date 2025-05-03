@@ -8,11 +8,6 @@
     "my-blog": "Stack Overflous",
     "my-portfolio": "Mon Portfolio"
   },
-  "intro": {
-    "desc": "Ingénieur logiciel full-stack basé à Vienne, spécialisé dans la création d'applications web, desktop et mobiles fiables, avec un fort accent sur l'architecture propre et l'amélioration continue.",
-    "name": "Salim",
-    "last-name": "B.H."
-  },
   "titles": {
     "blog-posts": "Articles de blog"
   },
@@ -25,5 +20,21 @@
   "my": "Mon",
   "i-am-available": "Je suis disponible",
   "i-am-not-available": "Je ne suis pas disponible",
-  "lets-talk": "Discutons"
+  "lets-talk": "Discutons",
+  "post": {
+    "meta": "{createdAt} • lecture de {readTime}"
+  },
+  "privacy": {
+    "loading": "Chargement de la politique de confidentialité…",
+    "error": "Erreur lors du chargement de la politique de confidentialité."
+  },
+  "imprint": {
+    "loading": "Chargement des mentions légales…",
+    "error": "Erreur lors du chargement des mentions légales."
+  },
+  "footer": {
+    "impressum": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "note": "Créé avec {symbol} par {name}"
+  }
 }

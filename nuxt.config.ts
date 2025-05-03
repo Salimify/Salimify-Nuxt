@@ -1,19 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // @ts-ignore
+import type {ModuleOptions} from "@nuxtjs/seo";
+
 export default defineNuxtConfig({
+  ssr: true,
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
+  modules: [
+    '@nuxtjs/i18n',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/seo',
+  ],
   // @ts-ignore
   i18n: {
     lazy: true,
     langDir: 'locales',
     defaultLocale: 'en',
     locales: [
-      { code: 'en', name: 'English', file: './en.json' },
-      { code: 'fr', name: 'Français', file: './fr.json' },
-      { code: 'de', name: 'Deutsch', file: './de.json' }
-    ]
+      { code: 'en', iso: 'en-US', file: './en.json', name: 'English', flag: '🇬🇧' },
+      { code: 'de', iso: 'de-DE', file: './de.json', name: 'Deutsch', flag: '🇩🇪' },
+      { code: 'fr', iso: 'fr-FR', file: './fr.json', name: 'Français', flag: '🇫🇷' },
+    ],
+    strategy: 'prefix_and_default',
   },
   googleFonts: {
     families: {
@@ -30,5 +39,13 @@ export default defineNuxtConfig({
   ],
   build: {
     transpile: ['@vueuse/core']
+  },
+  robots: {
+    enabled: true,
+    allow: '/',
+    sitemap: 'https://salimify.com/sitemap.xml'
+  },
+  sitemap: {
+    sources: ['/api/__sitemap__/urls'],
   }
 })

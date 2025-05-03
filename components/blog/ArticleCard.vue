@@ -1,17 +1,17 @@
 <script setup lang="ts">
-
 import type {Article} from "~/components/interfaces/interfaces";
+
+const localePath = useLocalePath()
 
 defineProps<{ article: Article }>()
 </script>
 
 <template>
-  <NuxtLink
+  <NuxtLinkLocale
       :to="article.slug"
       class="group article-card"
       aria-label="Read article"
   >
-    <!-- Image -->
     <div class="img-wrapper">
       <img
           :src="article.cover.img"
@@ -21,7 +21,6 @@ defineProps<{ article: Article }>()
       />
     </div>
 
-    <!-- Content -->
     <div class="card-content">
       <p class="card-date">
         {{ article.createdAt }}
@@ -29,10 +28,11 @@ defineProps<{ article: Article }>()
       <h3 class="card-title">
         {{ article.title }}
       </h3>
-      <p class="card-desc" v-html="article.description" />
+      <p class="card-desc" v-html="article.description"></p>
     </div>
-  </NuxtLink>
+  </NuxtLinkLocale>
 </template>
+
 
 <style scoped>
 .article-card {
