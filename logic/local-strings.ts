@@ -11,3 +11,5 @@ export const salimifyWebsite = 'https://salimify.com'
 
 export const wpBackend = 'https://wp.salimify.com/wp-json/wp/v2'
 export const strapiBackend = 'http://localhost:1337'
+
+export const pageSize = 3;

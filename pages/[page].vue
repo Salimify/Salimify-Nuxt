@@ -1,21 +1,43 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
-import { usePaginatedPosts } from '~/logic/usePaginatedPosts'
-import TagChip from "~/components/blog/TagChip.vue";
-import AboutMeCard from "~/components/blog/AboutMeCard.vue";
-import ArticleCard from "~/components/blog/ArticleCard.vue";
-import Pagination from "~/components/blog/Pagination.vue";
+import {computed} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {fetchPostsPure} from '~/logic/usePosts'
+import {usePaginatedPosts} from '~/logic/usePaginatedPosts'
+
+import AboutMeCard from '~/components/blog/AboutMeCard.vue'
+import TagChip from '~/components/blog/TagChip.vue'
+import ArticleCard from '~/components/blog/ArticleCard.vue'
+import Pagination from '~/components/blog/Pagination.vue'
+import HeroArticle from '~/components/blog/HeroArticle.vue'
 
 const route = useRoute()
 const router = useRouter()
 
-const currentPage = computed(() => Number(route.params.page || 1))
-const selectedTagId = computed({
-  get: () => Number(route.query.tag || null),
+const currentPage = computed(() => {
+  const p = Number(route.params.page)
+  return isNaN(p) || p < 1 ? 1 : p
+})
+
+const selectedTagId = computed<number | null>({
+  get: () => {
+    const tag = route.query.tag
+    return tag ? Number(tag) : null
+  },
   set: (val) => {
-    router.push({ path: route.fullPath, query: { tag: val || undefined } })
+    router.push({
+      path: route.path,
+      query: val ? {tag: val} : {}
+    })
   }
 })
+
+const asyncKey = computed(() => `posts-page-${currentPage.value}`)
+
+const {data} = useAsyncData(
+    () => `posts-page-${currentPage.value}`,
+    () => fetchPostsPure(),
+    {immediate: true, watch: [currentPage]}
+)
 
 const {
   tags,
@@ -25,20 +47,35 @@ const {
   getTagsForPost
 } = usePaginatedPosts(currentPage.value, selectedTagId)
 
-definePageMeta({ name: 'paginated' })
-</script>
+definePageMeta({
+  name: 'paginated',
+  alias: ['/', '/1'],
+  ssr: true,
+})
 
+onMounted(async () => {
+  if (!data.value) {
+    await refreshNuxtData(asyncKey.value)
+    await nextTick();
+  }
+})
+</script>
 
 <template>
   <div class="blog-container">
     <section class="about-section">
       <ClientOnly>
-        <AboutMeCard />
+        <AboutMeCard/>
       </ClientOnly>
     </section>
 
     <section class="tags-section">
-      <TagChip label="All" :active="!selectedTagId" :clickable="true" @click="() => selectedTagId = null" />
+      <TagChip
+          label="All"
+          :active="!selectedTagId"
+          :clickable="true"
+          @click="() => selectedTagId = null"
+      />
       <TagChip
           v-for="tag in tags"
           :key="tag.id"
@@ -51,7 +88,7 @@ definePageMeta({ name: 'paginated' })
 
     <ClientOnly>
       <section v-if="heroArticle" class="hero-section">
-        <HeroArticle :article="heroArticle" />
+        <HeroArticle :article="heroArticle"/>
       </section>
     </ClientOnly>
 
@@ -65,7 +102,7 @@ definePageMeta({ name: 'paginated' })
     </section>
 
     <section v-if="pageCount > 1" class="pagination">
-      <Pagination :current-page="currentPage" :page-count="pageCount" />
+      <Pagination :current-page="currentPage" :page-count="pageCount"/>
     </section>
   </div>
 </template>
@@ -74,18 +111,23 @@ definePageMeta({ name: 'paginated' })
 .blog-container {
   @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-6 md:py-14 space-y-8 md:mt-[315px];
 }
+
 .about-section {
   @apply mx-auto;
 }
+
 .tags-section {
   @apply flex justify-start flex-wrap gap-3;
 }
+
 .hero-section {
   @apply transition-all;
 }
+
 .articles-grid {
   @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-12;
 }
+
 .pagination {
   @apply flex justify-center gap-2 mt-12;
 }

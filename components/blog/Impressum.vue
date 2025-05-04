@@ -16,7 +16,7 @@ const {t} = useI18n()
 const {data, pending, error} = useLocalizedImprint()
 
 const html = computed(() => {
-  return (data.value as Imprint)?.imprint ? marked(data.value.Imprint) : ''
+  return (data.value as Imprint)?.Imprint ? marked(data.value.Imprint) : ''
 })
 </script>
 

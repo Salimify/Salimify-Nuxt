@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import type {Article} from "~/components/interfaces/blog.interfaces";
+import type {MappedPost} from "~/components/interfaces/post.interface";
 
-defineProps<{ article: Article }>()
+defineProps<{ article: MappedPost }>()
 </script>
 
 <style scoped>

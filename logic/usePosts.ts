@@ -1,5 +1,7 @@
-import { strapiBackend } from '~/logic/local-strings'
-import { stripMarkdown } from '~/logic/markdown'
+import {stripMarkdown} from '~/logic/markdown'
+import type {Post, MappedPost} from '~/components/interfaces/post.interface'
+import type {Tag} from '~/components/interfaces/tag.interface'
+import {strapiBackend} from "~/logic/local-strings";
 
 const DEFAULT_COVER = {
     img: '/article.png',
@@ -13,16 +15,15 @@ const formatDate = (dateStr: string): string =>
         day: 'numeric',
     })
 
-export async function fetchPostsPure() {
-    const [postsResponse, tagsResponse] = await Promise.all([
-        fetch(`${strapiBackend}/api/posts?populate=*`),
-        fetch(`${strapiBackend}/api/tags`),
-    ])
+export async function fetchPostsPure(): Promise<{
+    articles: MappedPost[]
+    heroArticle: MappedPost | null
+    tags: Tag[]
+}> {
+    const postsRes = await $fetch<{ data: Post[] }>(`${strapiBackend}/api/posts?populate=*`)
+    const tagsRes = await $fetch<{ data: Tag[] }>(`${strapiBackend}/api/tags`)
 
-    const { data: postData } = await postsResponse.json()
-    const { data: tagData } = await tagsResponse.json()
-
-    const mapped = postData.map((post: any) => ({
+    const mapped: MappedPost[] = postsRes.data.map((post) => ({
         id: post.id,
         title: post.title,
         description: post?.shortDescription
@@ -30,18 +31,18 @@ export async function fetchPostsPure() {
             : stripMarkdown(post.content).slice(0, 400) + '...',
         cover: post.coverImage?.formats?.small?.url
             ? {
-                img: strapiBackend + post.coverImage.formats.small.url,
-                alt: post.coverImage.alternativeText || 'Cover image',
+                img: strapiBackend + post.coverImage?.formats.small.url,
+                alt: post.coverImage?.alternativeText || 'Cover image',
             }
             : DEFAULT_COVER,
         createdAt: formatDate(post.createdAt),
         slug: `/posts/${post.slug}`,
-        tagIds: post.tags?.map((tag: any) => tag.id) || [],
+        tagIds: post.tags?.map((tag: Tag) => tag.id) || [],
     }))
 
     return {
         articles: mapped,
         heroArticle: mapped[0] || null,
-        tags: tagData,
+        tags: tagsRes.data || [],
     }
 }

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type {Article} from "~/components/interfaces/blog.interfaces";
 
-defineProps<{ article: Article }>()
+import type {MappedPost} from "~/components/interfaces/post.interface";
+
+defineProps<{ article: MappedPost }>()
 </script>
 
 <template>
