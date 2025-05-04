@@ -1,7 +1,10 @@
 # --- Build Stage ---
 FROM node:20-alpine AS build
 
-# Install dependencies
+# Accept build-time variable
+ARG STRAPI_BACKEND
+ENV STRAPI_BACKEND=$STRAPI_BACKEND
+
 RUN apk add --no-cache libc6-compat python3 make g++ git
 
 WORKDIR /app
@@ -18,6 +21,9 @@ RUN npm run build
 
 # --- Production Stage ---
 FROM node:20-alpine AS runner
+
+ARG STRAPI_BACKEND
+ENV STRAPI_BACKEND=$STRAPI_BACKEND
 
 WORKDIR /app
 

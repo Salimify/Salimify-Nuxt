@@ -1,12 +1,13 @@
 import { pageSize } from '~/config/local-strings.config'
+import type {Post} from "~/interfaces/post.interface";
 
 export default defineSitemapEventHandler(async () => {
     const config = useRuntimeConfig()
-    const strapiBackend = config.public.NUXT_PUBLIC_STRAPI_BACKEND
+    const strapiBackend = config.public.STRAPI_BACKEND
 
     const urls: string[] = []
 
-    const res = await $fetch(`${strapiBackend}/api/posts?populate=*`)
+    const res: { data: Post[]} = await $fetch(`${strapiBackend}/api/posts?populate=*`)
     const posts = res.data
 
     for (const post of posts) {

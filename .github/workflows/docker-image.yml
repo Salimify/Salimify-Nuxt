@@ -30,24 +30,18 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $HOST_IP >> ~/.ssh/known_hosts
 
-      - name: 🧹 Clean Remote Project Directory (excluding public uploads)
-        run: |
-          ssh $SSH_USER@$HOST_IP << EOF
-            cd $PROJECT_DIR
-            find . -mindepth 1 -maxdepth 1 ! -name 'public' -exec rm -rf {} +
-          EOF
-
       - name: 📤 Rsync Project Files to Remote
         run: |
           rsync -az --delete --exclude=".git" --exclude="node_modules" \
-            --exclude="public/uploads" \
+            --exclude=".env" --exclude="public/uploads" \
             -e "ssh -o StrictHostKeyChecking=no" ./ $SSH_USER@$HOST_IP:$PROJECT_DIR
 
-      - name: 🚀 Restart Docker with inline ENV
+      - name: 🚀 Rebuild and Restart Docker Containers on Remote
         run: |
           ssh $SSH_USER@$HOST_IP << EOF
             cd $PROJECT_DIR
+            export STRAPI_BACKEND=${{ secrets.STRAPI_BACKEND }}
             docker compose down
-            STRAPI_BACKEND="$STRAPI_BACKEND" docker compose build
-            STRAPI_BACKEND="$STRAPI_BACKEND" docker compose up -d --remove-orphans
+            docker compose build --build-arg STRAPI_BACKEND=${{ secrets.STRAPI_BACKEND }}
+            docker compose up -d --remove-orphans
           EOF

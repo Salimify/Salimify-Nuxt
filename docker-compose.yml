@@ -10,5 +10,5 @@ services:
       - "8075:3000"
     environment:
       - NODE_ENV=production
-      - NUXT_PUBLIC_STRAPI_BACKEND=${STRAPI_BACKEND}
+      - STRAPI_BACKEND=${STRAPI_BACKEND}
     restart: unless-stopped

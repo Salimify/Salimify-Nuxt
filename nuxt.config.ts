@@ -50,7 +50,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      NUXT_PUBLIC_STRAPI_BACKEND: process.env.NUXT_PUBLIC_STRAPI_BACKEND || 'http://localhost:1337',
+      STRAPI_BACKEND: process.env.STRAPI_BACKEND || 'http://localhost:1337',
     },
   },
 })
