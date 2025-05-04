@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import {ref, watch, onMounted} from 'vue'
 import {useRequestURL} from '#imports'
-import {process} from 'std-env'
 import {Github, Linkedin, Twitter, Mail} from 'lucide-vue-next'
 import {githubLink, linkedinLink, twitterLink, portfolioWebsiteLink} from '~/logic/local-strings'
 import {useHomePageData} from "~/logic/useHomePageData";
 
-const {data, pending, error} = useHomePageData()
+const {data, error} = useHomePageData()
 const imagePath = new URL('/salim-cover-2.png', useRequestURL()).pathname
 
-// Typewriter effect
 const fullText = ref('')
 const typedText = ref('')
 let index = 0
@@ -64,13 +62,13 @@ watch(() => data.value?.Bio, () => {
 })
 
 const openLink = () => {
-  if (process.client) {
+  if (import.meta.client) {
     window.open(portfolioWebsiteLink, '_blank')
   }
 }
 
 const sendEmail = () => {
-  if (process.client) {
+    if (import.meta.client) {
     window.open('mailto:contact@salimify.com')
   }
 }

@@ -1,44 +1,34 @@
-import { computed } from 'vue'
-import { usePosts } from '~/logic/usePosts'
+import { fetchPostsPure } from '~/logic/usePosts'
+import type {Ref} from "vue";
 
-export const usePaginatedPosts = (page: number, perPage = 3) => {
-    const {
-        filteredArticles,
-        fetchPosts,
-        tags,
-        selectedTagId,
-        getTagsForPost
-    } = usePosts()
+export function usePaginatedPosts(page: number, tagId: Ref<number | null> = null, pageSize = 3) {
+    const { data } = useAsyncData(`posts-page-${page}-tag-${tagId.value}`, () => fetchPostsPure())
 
-    // Defensive fallback in case filteredArticles isn't an array yet
-    const safeFiltered = computed(() =>
-        Array.isArray(filteredArticles.value) ? filteredArticles.value : []
+    const articles = computed(() => data.value?.articles || [])
+    const tags = computed(() => data.value?.tags || [])
+
+    const filteredArticles = computed(() =>
+        tagId.value ? articles.value.filter(a => a.tagIds.includes(tagId.value)) : articles.value
     )
 
-    // Hero is always the first post
-    const heroArticle = computed(() => safeFiltered.value[0])
+    const heroArticle = computed(() => filteredArticles.value[0] || null)
+    const paginatedArticles = computed(() => {
+        const start = 1 + (page - 1) * pageSize
+        return filteredArticles.value.slice(start, start + pageSize)
+    })
 
-    // Remaining articles after hero
-    const nonHeroArticles = computed(() => safeFiltered.value.slice(1))
-
-    // Paginated slice of non-hero articles
-    const paginatedArticles = computed(() =>
-        nonHeroArticles.value.slice((page - 1) * perPage, page * perPage)
-    )
-
-    // Total pages
     const pageCount = computed(() =>
-        Math.ceil(nonHeroArticles.value.length / perPage)
+        Math.ceil(Math.max(0, filteredArticles.value.length - 1) / pageSize)
     )
+
+    const getTagsForPost = (post: any) =>
+        post.tagIds.map((id: number) => tags.value.find(t => t.id === id)).filter(Boolean)
 
     return {
-        fetchPosts,
         tags,
-        selectedTagId,
-        filteredArticles: safeFiltered,
         heroArticle,
         paginatedArticles,
         pageCount,
-        getTagsForPost
+        getTagsForPost,
     }
 }

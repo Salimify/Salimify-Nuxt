@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { parseMarkdown } from '~/logic/markdown'
-import type { CoverImage, PostData } from '~/components/interfaces/interfaces'
+import type { CoverImage, PostData } from '~/components/interfaces/blog.interfaces'
 import { strapiBackend } from '~/logic/local-strings'
 
 const DEFAULT_COVER: CoverImage = {

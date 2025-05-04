@@ -33,15 +33,20 @@ useHead({
     },
     {name: 'twitter:image', content: 'https://salimify.com/salim.png'},
   ],
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/favicon.svg'
+    }
+  ],
 })
-const route = useRoute()
-console.log('[CLIENT] Route path:', route.path)
 </script>
 
 <template>
   <main class="px-4 py-10 text-gray-700 dark:text-gray-200">
     <Navbar/>
-    <router-view/>
+    <NuxtPage />
     <Footer/>
   </main>
 </template>

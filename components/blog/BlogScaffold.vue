@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {BlogScaffoldProp} from '~/components/interfaces/interfaces'
+import type {BlogScaffoldProp} from '~/components/interfaces/blog.interfaces'
 import TagChip from '~/components/blog/TagChip.vue'
 import {useRouter} from 'vue-router'
 import {useI18n} from 'vue-i18n'
@@ -9,7 +9,7 @@ import {Link as LinkIcon} from 'lucide-vue-next'
 const props = defineProps<BlogScaffoldProp>()
 const router = useRouter()
 const isUrlCopied = ref(false)
-const {t, availableLocales, locale} = useI18n()
+const {t} = useI18n()
 
 const articleFullPath = computed(() =>
     `${window.location.origin}${router.currentRoute.value.path}`
@@ -29,13 +29,10 @@ const openLink = () => {
 
 <template>
   <article>
-    <!-- Title -->
     <h1 class="text-4xl font-semibold leading-tight tracking-tight text-gray-900 dark:text-white mt-10 mb-6">
       {{ props.title }}
     </h1>
-
-    <div
-        class="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-6 gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-6 gap-4">
       <div class="flex items-center gap-4">
         <img
             :src="props.author.profileImage"
@@ -55,15 +52,12 @@ const openLink = () => {
           </span>
         </div>
       </div>
-
       <div class="flex items-center gap-3 flex-wrap">
         <TagChip
             v-for="tag in props.tags"
             :key="tag.id"
             :label="tag.name"
         />
-
-        <!-- Copy link -->
         <div class="relative">
           <button
               @click="copyToClipboard"
@@ -81,8 +75,6 @@ const openLink = () => {
         </div>
       </div>
     </div>
-
-    <!-- Cover Image -->
     <div>
       <div class="aspect-w-16 aspect-h-9">
         <img

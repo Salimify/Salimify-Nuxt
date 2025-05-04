@@ -22,7 +22,13 @@ export default defineNuxtConfig({
       { code: 'de', iso: 'de-DE', file: './de.json', name: 'Deutsch', flag: '🇩🇪' },
       { code: 'fr', iso: 'fr-FR', file: './fr.json', name: 'Français', flag: '🇫🇷' },
     ],
-    strategy: 'prefix_and_default',
+    strategy: 'prefix_except_default',
+    pages: {
+      '[page]': {
+        de: '/de/:page',
+        fr: '/fr/:page'
+      }
+    },
   },
   googleFonts: {
     families: {
@@ -47,5 +53,11 @@ export default defineNuxtConfig({
   },
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
+    loc: "https://salimify.com/",
+    alternates: [
+      { hreflang: "de", href: "https://salimify.com/de" },
+      { hreflang: "fr", href: "https://salimify.com/fr" },
+      { hreflang: "x-default", href: "https://salimify.com/" }
+    ]
   }
 })

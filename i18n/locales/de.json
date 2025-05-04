@@ -11,7 +11,10 @@
   "titles": {
     "blog-posts": "Blogbeiträge"
   },
-  "not-found": "Nicht gefunden",
+  "not-found": {
+    "not-found": "Nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht, wurde verschoben oder nie erstellt."
+  },
   "text": {
     "loading": "Beitrag wird geladen…",
     "load-failed": "Laden des Beitrags fehlgeschlagen",

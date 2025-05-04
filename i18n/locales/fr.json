@@ -11,7 +11,10 @@
   "titles": {
     "blog-posts": "Articles de blog"
   },
-  "not-found": "Introuvable",
+  "not-found": {
+    "title": "Introuvable",
+    "description": "Désolé, la page que vous recherchez n'existe pas, a été déplacée ou n'a jamais été créée."
+  },
   "text": {
     "loading": "Chargement…",
     "load-failed": "Échec du chargement de l’article",

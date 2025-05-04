@@ -4,16 +4,13 @@ import {useI18n} from 'vue-i18n'
 import {isDark, toggleDark} from '~/logic'
 import {portfolioWebsiteLink} from '~/logic/local-strings'
 import {Sun, Moon} from 'lucide-vue-next'
-import {process} from 'std-env'
 import LocaleSwitcher from '~/components/blog/LocaleSwitcher.vue'
 
-const {t, locale } = useI18n()
-locale.value
-const localePath = useLocalePath()
+const {t} = useI18n()
 
 const isScrolled = ref(false)
 
-if (process.client) {
+if (import.meta.client) {
   const onScroll = () => {
     isScrolled.value = window.scrollY > 0
   }
@@ -31,7 +28,6 @@ if (process.client) {
 
 <template>
   <nav :class="['navbar', isScrolled ? 'rounded-b-xl' : 'rounded-2xl']">
-    <ClientOnly>
       <div class="navbar-left">
         <NuxtLinkLocale to="/" class="logo" aria-label="Home">
           <img src="/salimify.svg" alt="S logo" class="w-8 h-8 filter dark:invert invert-0"/>
@@ -46,8 +42,6 @@ if (process.client) {
           </header>
         </NuxtLinkLocale>
       </div>
-    </ClientOnly>
-
     <div class="navbar-right">
       <button
           class="icon-btn"

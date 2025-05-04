@@ -12,7 +12,10 @@
   "titles": {
     "blog-posts": "Blog Posts"
   },
-  "not-found": "Not found",
+  "not-found": {
+    "title": "Page not found",
+    "description": "Sorry, the page you are looking for doesn’t exist, has been moved, or was never created."
+  },
   "text": {
     "loading": "Loading post...",
     "load-failed": "Failed to load post",

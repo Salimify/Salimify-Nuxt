@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <NuxtLinkLocale :to="article.slug" class="hero-article group" aria-label="Read featured article">
+    <NuxtLinkLocale :to="article.slug as any" class="hero-article group" aria-label="Read featured article">
       <div class="hero-img-wrapper">
         <img
             :src="article.cover.img"
@@ -23,8 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted} from "vue";
-import type {Article} from "~/components/interfaces/interfaces";
+import type {Article} from "~/components/interfaces/blog.interfaces";
 
 defineProps<{ article: Article }>()
 </script>

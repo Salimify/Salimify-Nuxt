@@ -10,10 +10,10 @@ import {useRoute} from 'vue-router'
 import {isDark} from '~/logic'
 
 const route = useRoute()
-const giscus = ref<HTMLElement | null>(null)
+const giscus = ref<HTMLElement>()
 
 const injectGiscus = (isDark: boolean) => {
-  if (!giscus.value || giscus.value.hasChildNodes()) return
+  if (!giscus.value || giscus.value?.hasChildNodes()) return
 
   const script = document.createElement('script')
   script.src = 'https://giscus.app/client.js'
@@ -29,24 +29,26 @@ const injectGiscus = (isDark: boolean) => {
   script.setAttribute('data-lang', 'en')
   script.setAttribute('crossorigin', 'anonymous')
   script.async = true
-  giscus.value.appendChild(script)
+  giscus.value?.appendChild(script)
 }
 
-onMounted(() => {
-  const slug = route.params.slug as string
+onMounted(async () => {
+  await nextTick()
   injectGiscus(isDark?.value ?? false)
 });
 
-watch(() => route.fullPath, () => {
+watch( () => route.fullPath, async () => {
   if (giscus.value) {
-    giscus.value.innerHTML = ''
+    await nextTick()
+    giscus.value!.innerHTML = ''
     injectGiscus(isDark?.value ?? false)
   }
 })
 
-watch(() => isDark?.value, () => {
+watch( () => isDark?.value, async () => {
   if (giscus.value) {
-    giscus.value.innerHTML = ''
+    await nextTick()
+    giscus.value!.innerHTML = ''
     injectGiscus(isDark?.value ?? false)
   }
 })

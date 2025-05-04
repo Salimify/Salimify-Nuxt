@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import type {Article} from "~/components/interfaces/interfaces";
-
-const localePath = useLocalePath()
+import type {Article} from "~/components/interfaces/blog.interfaces";
 
 defineProps<{ article: Article }>()
 </script>
 
 <template>
   <NuxtLinkLocale
-      :to="article.slug"
+      :to="article.slug as any"
       class="group article-card"
       aria-label="Read article"
   >
@@ -20,7 +18,6 @@ defineProps<{ article: Article }>()
           loading="lazy"
       />
     </div>
-
     <div class="card-content">
       <p class="card-date">
         {{ article.createdAt }}

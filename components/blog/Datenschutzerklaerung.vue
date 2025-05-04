@@ -3,12 +3,13 @@ import {computed} from 'vue'
 import {marked} from 'marked'
 import {useI18n} from 'vue-i18n'
 import {useLocalizedPrivacy} from '~/logic/useLocalizedPrivacy'
+import type {PrivacyPolicy, PrivacyPolicyAttributes} from "~/components/interfaces/privacy.interface";
 
 const {t} = useI18n()
 const {data, pending, error} = useLocalizedPrivacy()
 
 const html = computed(() => {
-  return data.value?.Content ? marked(data.value.Content) : ''
+  return (data.value as PrivacyPolicyAttributes).Content ? marked(data.value.Content) : ''
 })
 </script>
 

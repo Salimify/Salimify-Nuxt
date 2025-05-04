@@ -1,11 +1,12 @@
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
 import { strapiBackend } from '~/logic/local-strings'
+import type {PrivacyPolicy} from "~/components/interfaces/privacy.interface";
 
 export function useLocalizedPrivacy(key = 'privacy') {
     const { locale } = useI18n()
 
-    const { data, pending, error } = useAsyncData(`${key}-${locale.value}`, async () => {
+    const { data, pending, error } = useAsyncData<PrivacyPolicy>(`${key}-${locale.value}`, async () => {
         return await $fetch(`${strapiBackend}/api/privacy`, {
             params: { locale: locale.value }
         }).then((res: any) => res.data)
