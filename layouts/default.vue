@@ -40,6 +40,15 @@ useHead({
       href: '/favicon.svg'
     }
   ],
+  script: [
+    {
+      src: 'https://analytics.salimify.com/script.js',
+      'data-website-id': 'ecb800c3-7873-4a71-b1c9-316f039c16b2',
+      'data-do-not-track': 'true',
+      async: true,
+      defer: true,
+    }
+  ]
 })
 </script>
 
