@@ -1,6 +1,9 @@
-import {pageSize, strapiBackend} from '~/logic/local-strings'
+import { pageSize } from '~/config/local-strings.config'
 
 export default defineSitemapEventHandler(async () => {
+    const config = useRuntimeConfig()
+    const strapiBackend = config.public.NUXT_PUBLIC_STRAPI_BACKEND
+
     const urls: string[] = []
 
     const res = await $fetch(`${strapiBackend}/api/posts?populate=*`)
@@ -13,7 +16,6 @@ export default defineSitemapEventHandler(async () => {
     }
 
     const pageCount = Math.ceil(Math.max(0, posts.length - 1) / pageSize)
-
 
     for (let i = 1; i <= pageCount; i++) {
         urls.push(i === 1 ? '/' : `/${i}`)

@@ -2,7 +2,7 @@
 import {ref, onMounted, onUnmounted} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {isDark, toggleDark} from '~/logic'
-import {portfolioWebsiteLink} from '~/logic/local-strings'
+import {portfolioWebsiteLink} from '~/config/local-strings.config'
 import {Sun, Moon} from 'lucide-vue-next'
 import LocaleSwitcher from '~/components/blog/LocaleSwitcher.vue'
 

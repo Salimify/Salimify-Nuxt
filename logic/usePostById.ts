@@ -1,10 +1,9 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { parseMarkdown } from '~/logic/markdown'
-import { strapiBackend } from '~/logic/local-strings'
 import type {FlatCoverImage} from "~/components/interfaces/cover-image.interface";
 import type {PostData} from "~/components/interfaces/post.interface";
-import type {Author} from "~/components/interfaces/author.interface";
+import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 const DEFAULT_COVER: FlatCoverImage = {
     img: '/article.png',
@@ -32,6 +31,7 @@ export function usePostById() {
     const frontmatter = ref<PostData | null>(null)
     const loading = ref(false)
     const route = useRoute()
+    const strapiBackend = useStrapiBackend();
 
     const fetchPost = async () => {
         try {

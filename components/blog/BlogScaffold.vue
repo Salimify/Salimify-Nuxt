@@ -3,7 +3,7 @@ import type {BlogScaffoldProp} from '~/components/interfaces/blog.interfaces'
 import TagChip from '~/components/blog/TagChip.vue'
 import {useRouter} from 'vue-router'
 import {useI18n} from 'vue-i18n'
-import {portfolioWebsiteLink} from '~/logic/local-strings'
+import {portfolioWebsiteLink} from '~/config/local-strings.config'
 import {Link as LinkIcon} from 'lucide-vue-next'
 
 const props = defineProps<BlogScaffoldProp>()

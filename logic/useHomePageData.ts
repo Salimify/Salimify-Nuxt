@@ -1,9 +1,10 @@
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
-import { strapiBackend } from '~/logic/local-strings'
+import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 export function useHomePageData() {
     const { locale } = useI18n()
+    const strapiBackend = useStrapiBackend();
 
     const { data, pending, error } = useAsyncData(`home-page-${locale.value}`, async () => {
         try {

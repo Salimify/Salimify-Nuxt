@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {isDark, toggleDark} from '~/logic'
-import {githubLink, portfolioWebsiteLink} from '~/logic/local-strings'
+import {githubLink, portfolioWebsiteLink} from '~/config/local-strings.config'
 import {useI18n} from 'vue-i18n'
 import {Sun, Moon, Globe, Info, Github} from 'lucide-vue-next'
 

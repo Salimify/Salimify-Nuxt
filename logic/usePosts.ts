@@ -1,7 +1,7 @@
 import {stripMarkdown} from '~/logic/markdown'
 import type {Post, MappedPost} from '~/components/interfaces/post.interface'
 import type {Tag} from '~/components/interfaces/tag.interface'
-import {strapiBackend} from "~/logic/local-strings";
+import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 const DEFAULT_COVER = {
     img: '/article.png',
@@ -20,6 +20,7 @@ export async function fetchPostsPure(): Promise<{
     heroArticle: MappedPost | null
     tags: Tag[]
 }> {
+    const strapiBackend = useStrapiBackend();
     const postsRes = await $fetch<{ data: Post[] }>(`${strapiBackend}/api/posts?populate=*`)
     const tagsRes = await $fetch<{ data: Tag[] }>(`${strapiBackend}/api/tags`)
 

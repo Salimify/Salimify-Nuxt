@@ -47,5 +47,10 @@ export default defineNuxtConfig({
   },
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
-  }
+  },
+  runtimeConfig: {
+    public: {
+      NUXT_PUBLIC_STRAPI_BACKEND: process.env.NUXT_PUBLIC_STRAPI_BACKEND || 'http://localhost:1337',
+    },
+  },
 })

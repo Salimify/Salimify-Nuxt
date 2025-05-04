@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {salimifyWebsite} from '~/logic/local-strings'
+import {salimifyWebsite} from '~/config/local-strings.config'
 
 const title = 'StackOverFlous | Tech Blog by Salim'
 

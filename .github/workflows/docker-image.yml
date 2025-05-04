@@ -14,6 +14,7 @@ jobs:
       PROJECT_DIR: ${{ secrets.PRODUCTION_PROJECT_PATH }}
       HOST_IP: ${{ secrets.PRODUCTION_SERVER_IP }}
       SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+      STRAPI_BACKEND: ${{ secrets.STRAPI_BACKEND }}
 
     steps:
       - name: ✅ Checkout Repository
@@ -29,24 +30,24 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $HOST_IP >> ~/.ssh/known_hosts
 
-      - name: 🧹 Clean Remote Project Directory (excluding .env and uploads)
+      - name: 🧹 Clean Remote Project Directory (excluding public uploads)
         run: |
           ssh $SSH_USER@$HOST_IP << EOF
             cd $PROJECT_DIR
-            find . -mindepth 1 -maxdepth 1 ! -name '.env' ! -name 'public' -exec rm -rf {} +
+            find . -mindepth 1 -maxdepth 1 ! -name 'public' -exec rm -rf {} +
           EOF
 
       - name: 📤 Rsync Project Files to Remote
         run: |
           rsync -az --delete --exclude=".git" --exclude="node_modules" \
-            --exclude=".env" --exclude="public/uploads" \
+            --exclude="public/uploads" \
             -e "ssh -o StrictHostKeyChecking=no" ./ $SSH_USER@$HOST_IP:$PROJECT_DIR
 
-      - name: 🚀 Restart Docker Containers on Remote
+      - name: 🚀 Restart Docker with inline ENV
         run: |
           ssh $SSH_USER@$HOST_IP << EOF
             cd $PROJECT_DIR
             docker compose down
-            docker compose build
-            docker compose up -d --remove-orphans
+            STRAPI_BACKEND="$STRAPI_BACKEND" docker compose build
+            STRAPI_BACKEND="$STRAPI_BACKEND" docker compose up -d --remove-orphans
           EOF

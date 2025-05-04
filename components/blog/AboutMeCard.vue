@@ -2,7 +2,7 @@
 import {ref, watch, onMounted} from 'vue'
 import {useRequestURL} from '#imports'
 import {Github, Linkedin, Twitter, Mail} from 'lucide-vue-next'
-import {githubLink, linkedinLink, twitterLink, portfolioWebsiteLink} from '~/logic/local-strings'
+import {githubLink, linkedinLink, twitterLink, portfolioWebsiteLink, salimifyEmail} from '~/config/local-strings.config'
 import {useHomePageData} from "~/logic/useHomePageData";
 
 const {data, error} = useHomePageData()
@@ -69,7 +69,7 @@ const openLink = () => {
 
 const sendEmail = () => {
     if (import.meta.client) {
-    window.open('mailto:contact@salimify.com')
+    window.open(`mailto:${salimifyEmail}`, '_blank')
   }
 }
 </script>

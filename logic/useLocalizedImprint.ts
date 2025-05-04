@@ -1,8 +1,9 @@
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
-import { strapiBackend } from '~/logic/local-strings'
+import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 export function useLocalizedImprint(key = 'imprint') {
+    const strapiBackend = useStrapiBackend();
     const { locale } = useI18n()
 
     const { data, pending, error } = useAsyncData(`${key}-${locale.value}`, async () => {

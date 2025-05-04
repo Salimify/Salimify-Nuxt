@@ -5,7 +5,7 @@ import {useRoute} from 'vue-router'
 import {usePostById} from '~/logic/usePostById'
 import {computed} from 'vue'
 import TagChip from "~/components/blog/TagChip.vue";
-import {salimifyWebsite} from "~/logic/local-strings";
+import {salimifyWebsite} from "~/config/local-strings.config";
 import Giscus from "~/components/blog/Giscus.vue";
 import type {PostData} from "~/components/interfaces/post.interface";
 
