@@ -3,7 +3,7 @@ import {computed} from 'vue'
 import {marked} from 'marked'
 import {useI18n} from 'vue-i18n'
 import {useLocalizedPrivacy} from '~/logic/useLocalizedPrivacy'
-import type {PrivacyPolicy, PrivacyPolicyAttributes} from "~/components/interfaces/privacy.interface";
+import type {PrivacyPolicy, PrivacyPolicyAttributes} from "~/interfaces/privacy.interface";
 
 const {t} = useI18n()
 const {data, pending, error} = useLocalizedPrivacy()

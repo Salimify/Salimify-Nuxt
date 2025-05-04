@@ -1,6 +1,7 @@
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
 import {useStrapiBackend} from "~/logic/useStrapiBackend";
+import type {HomePageData} from "~/interfaces/homepage.interface";
 
 export function useHomePageData() {
     const { locale } = useI18n()
@@ -8,7 +9,7 @@ export function useHomePageData() {
 
     const { data, pending, error } = useAsyncData(`home-page-${locale.value}`, async () => {
         try {
-            const res = await $fetch(`${strapiBackend}/api/home-page`, {
+            const res: { data: HomePageData } = await $fetch(`${strapiBackend}/api/home-page`, {
                 params: { locale: locale.value }
             })
             return res?.data || {}
@@ -20,7 +21,7 @@ export function useHomePageData() {
 
     watch(locale, async (newLocale) => {
         try {
-            const res = await $fetch(`${strapiBackend}/api/home-page`, {
+            const res: { data: HomePageData } = await $fetch(`${strapiBackend}/api/home-page`, {
                 params: { locale: newLocale }
             })
             data.value = res?.data || {}

@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import type {MappedPost} from "~/components/interfaces/post.interface";
+import type {MappedPost} from "~/interfaces/post.interface";
 
 defineProps<{ article: MappedPost }>()
 </script>

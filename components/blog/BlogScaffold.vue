@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {BlogScaffoldProp} from '~/components/interfaces/blog.interfaces'
+import type {BlogScaffoldProp} from '~/interfaces/blog.interfaces'
 import TagChip from '~/components/blog/TagChip.vue'
 import {useRouter} from 'vue-router'
 import {useI18n} from 'vue-i18n'

@@ -1,8 +1,8 @@
-import type {Author} from "~/components/interfaces/author.interface";
-import type {Tag} from "~/components/interfaces/tag.interface";
-import type {PostLocalization} from "~/components/interfaces/post-localization.interface";
-import type {CoverImage, FlatCoverImage} from "~/components/interfaces/cover-image.interface";
-import type {PostTag} from "~/components/interfaces/blog.interfaces";
+import type {Author} from "~/interfaces/author.interface";
+import type {Tag} from "~/interfaces/tag.interface";
+import type {PostLocalization} from "~/interfaces/post-localization.interface";
+import type {CoverImage, FlatCoverImage} from "~/interfaces/cover-image.interface";
+import type {PostTag} from "~/interfaces/blog.interfaces";
 
 export interface Post {
     id: number

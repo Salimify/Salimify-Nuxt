@@ -1,6 +1,6 @@
 import {stripMarkdown} from '~/logic/markdown'
-import type {Post, MappedPost} from '~/components/interfaces/post.interface'
-import type {Tag} from '~/components/interfaces/tag.interface'
+import type {Post, MappedPost} from '~/interfaces/post.interface'
+import type {Tag} from '~/interfaces/tag.interface'
 import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 const DEFAULT_COVER = {

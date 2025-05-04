@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { parseMarkdown } from '~/logic/markdown'
-import type {FlatCoverImage} from "~/components/interfaces/cover-image.interface";
-import type {PostData} from "~/components/interfaces/post.interface";
+import type {FlatCoverImage} from "~/interfaces/cover-image.interface";
+import type {PostData} from "~/interfaces/post.interface";
 import {useStrapiBackend} from "~/logic/useStrapiBackend";
 
 const DEFAULT_COVER: FlatCoverImage = {
@@ -90,7 +90,7 @@ export function usePostById() {
                 createdAt: formatDate(post.createdAt),
                 content: parseMarkdown(post.content),
                 tags: post.tags || [],
-            } as PostData
+            } as unknown as PostData
         } catch (error) {
             console.error('Error fetching post or author:', error)
         } finally {

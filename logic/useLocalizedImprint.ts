@@ -1,6 +1,7 @@
 import { useI18n } from 'vue-i18n'
 import { watch } from 'vue'
 import {useStrapiBackend} from "~/logic/useStrapiBackend";
+import type {ImprintResponse} from "~/interfaces/imprint.interface";
 
 export function useLocalizedImprint(key = 'imprint') {
     const strapiBackend = useStrapiBackend();
@@ -14,7 +15,7 @@ export function useLocalizedImprint(key = 'imprint') {
 
     watch(locale, async (newLocale) => {
         try {
-            const res: any = await $fetch(`${strapiBackend}/api/imprint`, {
+            const res: ImprintResponse = await $fetch(`${strapiBackend}/api/imprint`, {
                 params: { locale: newLocale }
             })
             data.value = res.data

@@ -1,14 +1,14 @@
 import { fetchPostsPure } from '~/logic/usePosts'
 import type {Ref} from "vue";
 
-export function usePaginatedPosts(page: number, tagId: Ref<number | null> = null, pageSize = 3) {
+export function usePaginatedPosts(page: number, tagId: Ref<number | null> | null = null, pageSize = 3) {
     const { data } = useAsyncData(`posts-page-${page}`, () => fetchPostsPure())
 
     const articles = computed(() => data.value?.articles || [])
     const tags = computed(() => data.value?.tags || [])
 
     const filteredArticles = computed(() =>
-        tagId.value ? articles.value.filter(a => a.tagIds.includes(<number>tagId.value)) : articles.value
+        tagId?.value ? articles.value.filter(a => a.tagIds.includes(<number>tagId.value)) : articles.value
     )
 
     const heroArticle = computed(() => filteredArticles.value[0] || null)
