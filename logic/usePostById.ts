@@ -1,10 +1,12 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { parseMarkdown } from '~/logic/markdown'
-import type { CoverImage, PostData } from '~/components/interfaces/blog.interfaces'
 import { strapiBackend } from '~/logic/local-strings'
+import type {FlatCoverImage} from "~/components/interfaces/cover-image.interface";
+import type {PostData} from "~/components/interfaces/post.interface";
+import type {Author} from "~/components/interfaces/author.interface";
 
-const DEFAULT_COVER: CoverImage = {
+const DEFAULT_COVER: FlatCoverImage = {
     img: '/article.png',
     alt: 'No image available',
 }
@@ -49,7 +51,7 @@ export function usePostById() {
             const post = data[0]
             const coverData = post.coverImage
 
-            const cover: CoverImage = coverData
+            const cover: FlatCoverImage = coverData
                 ? {
                     img: strapiBackend + (coverData.formats?.small?.url ?? coverData.url),
                     alt: coverData.alternativeText || 'Cover image',
@@ -88,7 +90,7 @@ export function usePostById() {
                 createdAt: formatDate(post.createdAt),
                 content: parseMarkdown(post.content),
                 tags: post.tags || [],
-            }
+            } as PostData
         } catch (error) {
             console.error('Error fetching post or author:', error)
         } finally {
