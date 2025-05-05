@@ -7,7 +7,7 @@ import {computed} from 'vue'
 import TagChip from "~/components/blog/TagChip.vue";
 import {salimifyWebsite} from "~/config/local-strings.config";
 import Giscus from "~/components/blog/Giscus.vue";
-import type {PostData} from "~/interfaces/post.interface";
+import {usePostMeta} from "~/logic/usePostMeta";
 
 const {t} = useI18n()
 const route = useRoute()
@@ -17,58 +17,12 @@ const articleFullPath = computed(() =>
     `${salimifyWebsite}${route.fullPath}`
 )
 
-const {locale, locales} = useI18n()
-
-const currentIso = computed(() => {
-  return locales.value.find((l: any) => l.code === locale.value)?.iso || 'en_US'
-})
-
-const alternateIsos = computed(() =>
-    locales.value
-        .filter((l: any) => l.code !== locale.value)
-        .map((l: any) => l.iso)
-)
+const {locale} = useI18n()
 
 
 if (frontmatter.value) {
-  const blogData = frontmatter.value as PostData
-
-  useHead({
-    title: `${blogData.title} | StackOverFlous by ${blogData.author.name}`,
-    meta: [
-      {name: 'description', content: blogData.description},
-      {property: 'og:type', content: 'article'},
-      {property: 'og:site_name', content: 'StackOverFlous'},
-      {property: 'og:url', content: articleFullPath.value},
-      {property: 'og:title', content: blogData.title},
-      {property: 'og:description', content: blogData.description},
-      {property: 'og:image', content: blogData.cover.img},
-      {property: 'og:locale', content: currentIso.value},
-      ...alternateIsos.value.map(iso => ({
-        property: 'og:locale:alternate',
-        content: iso
-      })),
-
-      {name: 'twitter:card', content: 'summary_large_image'},
-      {name: 'twitter:site', content: '@yourTwitterHandle'},
-      {name: 'twitter:creator', content: `@${blogData.author.name || 'author'}`},
-      {name: 'twitter:url', content: articleFullPath.value},
-      {name: 'twitter:title', content: blogData.title},
-      {name: 'twitter:description', content: blogData.description},
-      {name: 'twitter:image', content: blogData.cover.img},
-      {name: 'twitter:label1', content: 'Written by'},
-      {name: 'twitter:data1', content: blogData.author.name},
-
-      {property: 'article:published_time', content: blogData.createdAt},
-      ...(blogData.tags?.length
-          ? [
-            {property: 'article:tag', content: blogData.tags.join(', ')}
-          ]
-          : [])
-    ],
-    link: [{rel: 'canonical', href: articleFullPath.value}]
-  })
-
+  const blogData = frontmatter.value as any
+  usePostMeta(blogData, articleFullPath.value)
 }
 </script>
 
