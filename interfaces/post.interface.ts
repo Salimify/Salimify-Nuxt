@@ -2,7 +2,6 @@ import type {Author} from "~/interfaces/author.interface";
 import type {Tag} from "~/interfaces/tag.interface";
 import type {PostLocalization} from "~/interfaces/post-localization.interface";
 import type {CoverImage, FlatCoverImage} from "~/interfaces/cover-image.interface";
-import type {PostTag} from "~/interfaces/blog.interfaces";
 
 export interface Post {
     id: number
@@ -41,6 +40,6 @@ export interface PostData {
     readTime: string
     createdAt: string
     content: string,
-    tags?: PostTag[]
+    tags?: Tag[]
 }
 

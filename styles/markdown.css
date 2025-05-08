@@ -57,6 +57,10 @@ html.dark .prose {
   color: white;
 }
 
-html:not(.dark) .prose code {
-    color: black;
+html:not(.dark) .prose blockquote {
+  color: rgb(133, 133, 133) !important;
+}
+
+html.dark .prose blockquote {
+  color: rgb(197, 197, 197) !important;
 }

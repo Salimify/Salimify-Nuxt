@@ -30,9 +30,9 @@ export async function fetchPostsPure(): Promise<{
         description: post?.shortDescription
             ? post.shortDescription
             : stripMarkdown(post.content).slice(0, 400) + '...',
-        cover: post.coverImage?.formats?.small?.url
+        cover: post.coverImage?.formats?.large?.url
             ? {
-                img: strapiBackend + post.coverImage?.formats.small.url,
+                img: strapiBackend + post.coverImage?.formats.large.url,
                 alt: post.coverImage?.alternativeText || 'Cover image',
             }
             : DEFAULT_COVER,

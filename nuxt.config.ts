@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // @ts-ignore
-import type {ModuleOptions} from "@nuxtjs/seo";
 
 export default defineNuxtConfig({
   ssr: true,
@@ -32,7 +31,9 @@ export default defineNuxtConfig({
     preconnect: true,
     preload: true,
   },
-  plugins: [],
+  plugins: [
+    '~/plugins/prism.ts',
+  ],
   css: [
     '~/styles/main.css',
     '~/styles/markdown.css'

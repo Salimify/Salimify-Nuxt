@@ -1,18 +1,28 @@
 import { marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import Prism from 'prismjs'
-import 'prismjs/components/prism-typescript'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/components/prism-markup'
-import 'prismjs/themes/prism-tomorrow.css'
+import 'prismjs/themes/prism-tomorrow.min.css'
+
+marked.setOptions({
+    gfm: true,
+    breaks: true,
+})
 
 marked.use(
-  markedHighlight({
-    highlight(code, lang) {
-      const language = Prism.languages[lang] || Prism.languages.markup
-      return Prism.highlight(code, language, lang)
-    },
-  }),
+    markedHighlight({
+        highlight(code, lang) {
+            const language = lang && Prism.languages[lang]
+                ? Prism.languages[lang]
+                : Prism.languages.markup
+
+            try {
+                return Prism.highlight(code, language, lang || 'markdown')
+            } catch (e) {
+                console.warn(`[Prism] Error highlighting "${lang}":`, e)
+                return code
+            }
+        }
+    })
 )
 
 export const parseMarkdown = (markdown: string): string => {

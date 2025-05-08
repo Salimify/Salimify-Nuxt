@@ -53,7 +53,7 @@ export function usePostById() {
 
             const cover: FlatCoverImage = coverData
                 ? {
-                    img: strapiBackend + (coverData.formats?.small?.url ?? coverData.url),
+                    img: strapiBackend + (coverData.formats?.large?.url ?? coverData.url),
                     alt: coverData.alternativeText || 'Cover image',
                 }
                 : DEFAULT_COVER
