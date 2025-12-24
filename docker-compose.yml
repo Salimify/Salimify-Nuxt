@@ -6,9 +6,15 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: salimify-blog-nuxt
-    ports:
-      - "8075:3000"
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
       - STRAPI_BACKEND=${STRAPI_BACKEND}
     restart: unless-stopped
+    networks:
+      - npm_network
+
+networks:
+  npm_network:
+    external: true
