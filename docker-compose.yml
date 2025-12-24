@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: salimify-blog-nuxt
     expose:
-      - "3000"
+      - "3001"
     environment:
       - NODE_ENV=production
       - STRAPI_BACKEND=${STRAPI_BACKEND}
