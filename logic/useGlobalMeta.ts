@@ -48,7 +48,7 @@ export function useGlobalMeta() {
         script: isLiveDomain ? [
             {
                 src: 'https://analytics.salimify.com/script.js',
-                'data-website-id': 'ecb800c3-7873-4a71-b1c9-316f039c16b2',
+                'data-website-id': '905fe449-6bff-44c5-b466-ac4cde8eaaa6',
                 'data-do-not-track': 'true',
                 async: true,
                 defer: true,
